@@ -85,12 +85,13 @@ class Users_model extends CI_Model
 			return FALSE;
 		}
 	}
-	function update_user($userID, $userFirstName, $userAddress, $userPassword){
+	function update_user($userID, $userFirstName, $userAddress, $userPassword,$userImage){
 
 		$users_update = array( 
 									'userFirstName'		=> $userFirstName,
 									'userAddress'		=> $userAddress,
-									'userPassword'		=> $userPassword
+									'userPassword'		=> $userPassword,
+									'userImage'			=> $userImage
 									
 			);
 

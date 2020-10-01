@@ -11,7 +11,7 @@
 <div class="contentpanel">
     <div class="panel panel-default">
         <div class="panel-body">
-            <form role="form" id="updateUserForm" action="<?php echo base_url();?>users/profile_edit" method="post">
+            <form role="form" id="updateUserForm" action="<?php echo base_url();?>users/profile_edit" method="post" enctype="multipart/form-data">
                 <?=display_form_message('updateUserForm')?>
 
                 <div class="row">
@@ -38,8 +38,17 @@
                             <label class="control-label" for="userAddress">Address</label>     
                             <textarea class="form-control" name="userAddress" placeholder="Enter your address" ><?=$users['userAddress']?></textarea> 
                         </div>  
-                    </div>                 
-                </div>                                   
+                    </div>  
+                                 
+                </div>           
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="control-label" for="filename">Select Image</label>
+                         <div class="form-group"><img class="" src="<?=base_url()?>uploads/<?= $users['userImage']?>" alt="Image" height="100" width="110"></div>
+                         <input type="file" name="filename" size="20">
+                        
+                    </div>  
+                </div>                        
                                   
                 <div class="panel-footer">
                     <button type="submit" class="btn btn-primary" name="add">Update</button>

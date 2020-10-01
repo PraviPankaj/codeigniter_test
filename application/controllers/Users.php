@@ -127,6 +127,12 @@ class Users extends CI_Controller {
 	        {
 	            $userID = $this->session->userdata('userID');
 	            
+	            $config['upload_path'] = './uploads/';
+	            $config['allowed_types'] = 'gif|jpg|png|jpeg';
+	            $config['max_size'] = '';
+	            $config['max_width']  = '';
+	            $config['max_height']  = '';
+	            $this->load->library('upload', $config);
 		    	$userFirstName = $this->input->post('userFirstName');
 		    	$userAddress = $this->input->post('userAddress');
 		    	$userPassword = $this->input->post('userPassword');	
@@ -137,13 +143,30 @@ class Users extends CI_Controller {
 				
 				if($this->form_validation->run())
 				{
+					$user_data = $this->users_model->read_user_by_id($userID);
 				
-					
-					if($this->users_model->update_user($userID, $userFirstName, $userAddress, $userPassword))
+					$dname = explode(".", $_FILES['filename']['name']);
+	                $ext = end($dname);
+	                $_FILES['filename']['name'] = strtolower('profile_'.date('YmdHis').'.'.$ext);
+	                if ( ! $this->upload->do_upload('filename'))
+	                {
+	                    //print_r($this->upload->display_errors());
+	                    $error = array('error' => $this->upload->display_errors());
+	                    $userImage = $user_data['userImage'];
+	                }
+	                else
+	                {
+	                    $data = array('upload_data' => $this->upload->data());
+	                    $data_upload=$this->upload->data();
+	                    $userImage = $data_upload['file_name'];
+	                    //echo $imageName;
+	                }
+					if($this->users_model->update_user($userID, $userFirstName, $userAddress, $userPassword, $userImage))
 					{
 						create_form_message('success', 'updateUserForm', "User Updated Successfully");
 						
 					}
+					
 					
 					
 				}
